@@ -2,36 +2,42 @@
 
 ![redfin-diagram](https://github.com/user-attachments/assets/234cb3d2-f9ff-4930-864b-d363682586c4)
 
-This project implements a scalable data pipeline to extract, transform, and load real estate data from Redfin into Snowflake using AWS services. The data is later visualized in Power BI to provide insights into real estate trends.
+This repository contains an end-to-end, cloud-based automated ETL data pipeline designed to ingest, process, and analyze real estate data from Redfin. The pipeline leverages AWS services, Apache Airflow for orchestration, Snowflake for data warehousing, and Power BI for analytics and visualization.
 
-## Overview
+The solution is built to be scalable, modular, and production-oriented, enabling reliable data ingestion and near real-time analytics on real estate market trends.
 
-The pipeline involves the following stages:
+## Project Overview
+
+The data pipeline consists of the following stages:
 
 1. **Data Extraction**: 
-   - Redfin source data is extracted using Python.
-   - The raw data is loaded into AWS S3 buckets.
+   - Real estate data is programmatically extracted from Redfin using Python.
+   - Raw source data is stored in an Amazon S3 bucket for durability and auditability.
 
 2. **Transformation**:
-   - Python scripts are used to transform the data.
-   - Transformed data is stored in a separate S3 bucket.
+   - Python-based transformation scripts clean, normalize, and structure the raw data.
+   - Transformed datasets are written to a separate S3 bucket, following a multi-layer (raw → processed) data architecture.
 
-3. **Snowpipe**:
-   - Snowpipe automatically triggers to load transformed data from S3 into Snowflake.
+3. **Automated Data Loading (Snowpipe)**:
+   - Snowpipe is configured to automatically ingest transformed data from S3 into Snowflake.
+   - This enables continuous, event-driven data loading with minimal latency.
 
-4. **Data Loading**:
-   - Transformed data is ingested into Snowflake for further analysis and querying.
+4. **Data Warehousing**:
+   - Snowflake serves as the central analytical data warehouse.
+   - Data is optimized for querying, reporting, and downstream BI consumption.
+     
+5. **Orchestration & Scheduling**:
+   - Apache Airflow, deployed on an AWS EC2 instance, orchestrates the entire ETL workflow.
+   - DAGs handle task scheduling, dependencies, retries, and monitoring to ensure pipeline reliability.
 
-5. **Visualization**:
-   - Data in Snowflake is connected to Power BI for creating visualizations and dashboards.
-
-6. **Orchestration with Airflow**:
-   - Apache Airflow, running on an EC2 instance, orchestrates the entire process, scheduling and monitoring the data pipeline.
+6. **Data Visualization**:
+   - Snowflake is connected to Power BI to build interactive dashboards.
+   - Visualizations provide insights into key real estate metrics and trends.
 
 ## Architecture
 
 The architecture includes the following components:
-- **AWS S3**: Stores raw and transformed data.
+- **Amazon S3**: Stores raw and transformed data.
 - **Python**: Handles data extraction and transformation.
 - **Snowflake**: Stores the final processed data for analytics.
 - **Apache Airflow**: Orchestrates the ETL pipeline.
